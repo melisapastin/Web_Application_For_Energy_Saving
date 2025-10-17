@@ -1,0 +1,82 @@
+[
+  {
+    "deviceName": "AirScale Base Station",
+    "group": "Radio Access",
+    "powerOnTime": "00:00",
+    "powerOffTime": "23:59",
+    "count": 4,
+    "consumptionPerHour": 0.8
+  },
+  {
+    "deviceName": "AirScale Massive MIMO Adaptive Antenna",
+    "group": "Radio Access",
+    "powerOnTime": "00:00",
+    "powerOffTime": "23:59",
+    "count": 6,
+    "consumptionPerHour": 1.2
+  },
+  {
+    "deviceName": "AirScale Radio Module",
+    "group": "Radio Access",
+    "powerOnTime": "00:00",
+    "powerOffTime": "23:59",
+    "count": 12,
+    "consumptionPerHour": 0.6
+  },
+  {
+    "deviceName": "AirScale Active Antenna",
+    "group": "Radio Access",
+    "powerOnTime": "00:00",
+    "powerOffTime": "23:59",
+    "count": 8,
+    "consumptionPerHour": 0.9
+  },
+  {
+    "deviceName": "AirScale Indoor Radio",
+    "group": "Radio Access",
+    "powerOnTime": "06:00",
+    "powerOffTime": "22:00",
+    "count": 16,
+    "consumptionPerHour": 0.4
+  },
+  {
+    "deviceName": "AirScale Micro RRH",
+    "group": "Radio Access",
+    "powerOnTime": "00:00",
+    "powerOffTime": "23:59",
+    "count": 24,
+    "consumptionPerHour": 0.3
+  },
+  {
+    "deviceName": "AirScale mmWave Radio",
+    "group": "Radio Access",
+    "powerOnTime": "00:00",
+    "powerOffTime": "23:59",
+    "count": 10,
+    "consumptionPerHour": 0.7
+  },
+  {
+    "deviceName": "AirScale All-in-One Base Station",
+    "group": "Radio Access",
+    "powerOnTime": "00:00",
+    "powerOffTime": "23:59",
+    "count": 3,
+    "consumptionPerHour": 1.4
+  },
+  {
+    "deviceName": "AirScale Compact Active Antenna",
+    "group": "Radio Access",
+    "powerOnTime": "00:00",
+    "powerOffTime": "23:59",
+    "count": 14,
+    "consumptionPerHour": 0.5
+  },
+  {
+    "deviceName": "AirScale Smart Radio",
+    "group": "Radio Access",
+    "powerOnTime": "00:00",
+    "powerOffTime": "23:59",
+    "count": 18,
+    "consumptionPerHour": 0.45
+  }
+]

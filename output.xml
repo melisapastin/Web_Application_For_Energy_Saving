@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.0 (Python 3.13.2 on win32)" generated="20251004 19:39:23.116" rpa="false" schemaversion="3">
+<suite id="s1" name="Login" source="c:\Users\melisafeb2025\Desktop\summer_practice_nokia\summer_practice_my_version\smart-energy-saving\test\suites\Login.robot">
+<test id="s1-t1" name="Login with no credentials" line="8">
+<kw name="Load Project" library="keywords" type="SETUP">
+<doc>Open a new Robot Framework Browser window and navigate to the project</doc>
+<kw name="New Browser" library="Browser">
+<arg>headless=False</arg>
+<arg>timeout=60s</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new playwright Browser with specified options.</doc>
+<msg timestamp="20251004 19:39:23.382" level="INFO">Starting Browser process C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\index.js using at 127.0.0.1:62333</msg>
+<msg timestamp="20251004 19:39:24.493" level="INFO">{"browser": "chromium", "headless": false, "chromiumSandbox": false, "devtools": false, "handleSIGHUP": true, "handleSIGINT": true, "handleSIGTERM": true, "slowMo": 0.0, "timeout": 60000.0, "tracesDir": "C:\\Users\\melisafeb2025\\Desktop\\summer_practice_nokia\\summer_practice_my_version\\smart-energy-saving\\browser\\traces\\temp\\13036aeb-2937-4e15-84a5-cfa2714064f3"}</msg>
+<msg timestamp="20251004 19:39:24.812" level="INFO">Successfully created browser with options: {"browser":"chromium","headless":false,"chromiumSandbox":false,"devtools":false,"handleSIGHUP":true,"handleSIGINT":true,"handleSIGTERM":true,"slowMo":0,"timeout":60000,"tracesDir":"C:\\Users\\melisafeb2025\\Desktop\\summer_practice_nokia\\summer_practice_my_version\\smart-energy-saving\\browser\\traces\\temp\\13036aeb-2937-4e15-84a5-cfa2714064f3"}</msg>
+<status status="PASS" starttime="20251004 19:39:23.343" endtime="20251004 19:39:24.813"/>
+</kw>
+<kw name="New Context" library="Browser">
+<arg>viewport={'width': 1280, 'height': 800}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Create a new BrowserContext with specified options.</doc>
+<msg timestamp="20251004 19:39:24.824" level="INFO">{
+  "acceptDownloads": true,
+  "bypassCSP": false,
+  "forcedColors": "none",
+  "ignoreHTTPSErrors": false,
+  "javaScriptEnabled": true,
+  "offline": false,
+  "reducedMotion": "no-preference",
+  "serviceWorkers": "allow",
+  "viewport": {
+    "height": 800,
+    "width": 1280
+  }
+}</msg>
+<msg timestamp="20251004 19:39:24.857" level="INFO">Successfully created context. </msg>
+<msg timestamp="20251004 19:39:24.858" level="INFO">{'acceptDownloads': True, 'bypassCSP': False, 'forcedColors': 'none', 'ignoreHTTPSErrors': False, 'javaScriptEnabled': True, 'offline': False, 'reducedMotion': 'no-preference', 'serviceWorkers': 'allow', 'viewport': {'height': 800, 'width': 1280}}</msg>
+<status status="PASS" starttime="20251004 19:39:24.814" endtime="20251004 19:39:24.858"/>
+</kw>
+<kw name="New Page" library="Browser">
+<arg>${FRONTEND_URL}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Open a new Page.</doc>
+<msg timestamp="20251004 19:39:25.994" level="INFO">Successfully initialized new page object and opened url: http://localhost:5173/</msg>
+<status status="PASS" starttime="20251004 19:39:24.859" endtime="20251004 19:39:25.994"/>
+</kw>
+<status status="PASS" starttime="20251004 19:39:23.340" endtime="20251004 19:39:25.994"/>
+</kw>
+<kw name="Attempt Empty Login">
+<arg>${EMPTY}</arg>
+<arg>${EMPTY}</arg>
+<doc>Attempt to login with bad credentials, and expect error</doc>
+<kw name="Run Keyword And Expect Error" library="BuiltIn">
+<arg>*</arg>
+<arg>Attempt Login</arg>
+<arg>${username}</arg>
+<arg>${password}</arg>
+<doc>Runs the keyword and checks that the expected error occurred.</doc>
+<kw name="Attempt Login" library="keywords">
+<arg>${username}</arg>
+<arg>${password}</arg>
+<doc>Attempt to login with given credentials</doc>
+<kw name="Go To" library="Browser">
+<arg>${url}</arg>
+<tag>BrowserControl</tag>
+<tag>Setter</tag>
+<doc>Navigates to the given ``url``.</doc>
+<msg timestamp="20251004 19:39:26.318" level="INFO">Successfully opened URL http://localhost:5173/</msg>
+<status status="PASS" starttime="20251004 19:39:26.000" endtime="20251004 19:39:26.319"/>
+</kw>
+<kw name="Wait For Elements State" library="Browser">
+<arg>h6:has-text("Login")</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20251004 19:39:26.462" level="INFO">Waited for Element with selector h6:has-text("Login") at state visible</msg>
+<status status="PASS" starttime="20251004 19:39:26.319" endtime="20251004 19:39:26.462"/>
+</kw>
+<kw name="Type Text" library="Browser">
+<arg>input#username</arg>
+<arg>${username}</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Types the given ``txt`` into the text field found by ``selector``.</doc>
+<msg timestamp="20251004 19:39:26.472" level="INFO">Types the text '' in the given field.</msg>
+<msg timestamp="20251004 19:39:26.565" level="INFO">Highlighted 1 elements for 2000 ms.</msg>
+<status status="PASS" starttime="20251004 19:39:26.462" endtime="20251004 19:39:28.593"/>
+</kw>
+<kw name="Type Secret" library="Browser">
+<arg>input#password</arg>
+<arg>$password</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Types the given secret from ``variable_name`` into the text field
+found by ``selector``.</doc>
+<status status="PASS" starttime="20251004 19:39:28.594" endtime="20251004 19:39:30.685"/>
+</kw>
+<kw name="Click" library="Browser">
+<arg>button:has-text("Login")</arg>
+<tag>PageContent</tag>
+<tag>Setter</tag>
+<doc>Simulates mouse click on the element found by ``selector``.</doc>
+<msg timestamp="20251004 19:39:30.690" level="INFO">Clicks the element 'button:has-text("Login")'.</msg>
+<msg timestamp="20251004 19:39:30.744" level="INFO">Highlighted 1 elements for 2000 ms.</msg>
+<status status="PASS" starttime="20251004 19:39:30.685" endtime="20251004 19:39:32.864"/>
+</kw>
+<kw name="Check Logged In" library="keywords">
+<doc>Check that the user is logged in (sidebar menu options are visible)</doc>
+<kw name="Wait For Elements State" library="Browser">
+<arg>a:has-text("Home")</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20251004 19:39:43.204" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="browser/screenshot/fail-screenshot-1.png" target="_blank"&gt;&lt;img src="browser/screenshot/fail-screenshot-1.png" width="800px"/&gt;&lt;/a&gt;</msg>
+<msg timestamp="20251004 19:39:43.204" level="INFO">See also file:///C:/Users/melisafeb2025/Desktop/summer_practice_nokia/summer_practice_my_version/smart-energy-saving/playwright-log.txt for additional details.</msg>
+<msg timestamp="20251004 19:39:43.205" level="FAIL">TimeoutError: locator.waitFor: Timeout 10000ms exceeded.
+Call log:
+  - waiting for locator('a:has-text("Home")') to be visible
+</msg>
+<status status="FAIL" starttime="20251004 19:39:32.866" endtime="20251004 19:39:43.276"/>
+</kw>
+<kw name="Wait For Elements State" library="Browser">
+<arg>a:has-text("Profile")</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<status status="NOT RUN" starttime="20251004 19:39:43.277" endtime="20251004 19:39:43.278"/>
+</kw>
+<kw name="Wait For Elements State" library="Browser">
+<arg>button:has-text("Logout")</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<status status="NOT RUN" starttime="20251004 19:39:43.279" endtime="20251004 19:39:43.280"/>
+</kw>
+<status status="FAIL" starttime="20251004 19:39:32.865" endtime="20251004 19:39:43.280"/>
+</kw>
+<status status="FAIL" starttime="20251004 19:39:25.998" endtime="20251004 19:39:43.280"/>
+</kw>
+<status status="PASS" starttime="20251004 19:39:25.997" endtime="20251004 19:39:43.281"/>
+</kw>
+<kw name="Wait For Elements State" library="Browser">
+<arg>button:has-text("Login")</arg>
+<tag>PageContent</tag>
+<tag>Wait</tag>
+<doc>Waits for the element found by ``selector`` to satisfy state option.</doc>
+<msg timestamp="20251004 19:39:43.314" level="INFO">Waited for Element with selector button:has-text("Login") at state visible</msg>
+<status status="PASS" starttime="20251004 19:39:43.281" endtime="20251004 19:39:43.315"/>
+</kw>
+<status status="PASS" starttime="20251004 19:39:25.995" endtime="20251004 19:39:43.315"/>
+</kw>
+<status status="PASS" starttime="20251004 19:39:23.338" endtime="20251004 19:39:43.317"/>
+</test>
+<status status="PASS" starttime="20251004 19:39:23.120" endtime="20251004 19:39:48.456"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Login">Login</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

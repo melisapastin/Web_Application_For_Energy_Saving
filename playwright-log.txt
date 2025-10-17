@@ -1,0 +1,146 @@
+{"level":30,"time":"2025-10-04T16:39:24.185Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Listening on 127.0.0.1:62333"}
+(node:6812) DeprecationWarning: Calling start() is no longer necessary. It can be safely omitted.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+{"level":30,"time":"2025-10-04T16:39:24.489Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method evaluateJavascript"}
+================= Original suppressed error =================
+Error: No page open.
+    at PlaywrightServer.getActivePage (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\index.js:13126:24)
+    at PlaywrightServer.evaluateJavascript (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\index.js:13178:75)
+    at Object.onReceiveHalfClose (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\node_modules\@grpc\grpc-js\build\src\server.js:1461:25)
+    at BaseServerInterceptingCall.maybePushNextMessage (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\node_modules\@grpc\grpc-js\build\src\server-interceptors.js:575:31)
+    at BaseServerInterceptingCall.handleEndEvent (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\node_modules\@grpc\grpc-js\build\src\server-interceptors.js:615:14)
+    at ServerHttp2Stream.<anonymous> (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\node_modules\@grpc\grpc-js\build\src\server-interceptors.js:382:18)
+    at ServerHttp2Stream.emit (node:events:530:35)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+=============================================================
+{"level":30,"time":"2025-10-04T16:39:24.489Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Error of node method  evaluateJavascript"}
+{"level":30,"time":"2025-10-04T16:39:24.495Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method newBrowser"}
+{"level":30,"time":"2025-10-04T16:39:24.807Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Adding browser to stack: chromium, version: 138.0.7204.23"}
+{"level":30,"time":"2025-10-04T16:39:24.809Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method newBrowser"}
+{"level":30,"time":"2025-10-04T16:39:24.808Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Adding 0 contexts to browser"}
+{"level":30,"time":"2025-10-04T16:39:24.817Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method evaluateJavascript"}
+================= Original suppressed error =================
+Error: No page open.
+    at PlaywrightServer.getActivePage (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\index.js:13126:24)
+    at PlaywrightServer.evaluateJavascript (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\index.js:13178:75)
+    at Object.onReceiveHalfClose (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\node_modules\@grpc\grpc-js\build\src\server.js:1461:25)
+    at BaseServerInterceptingCall.maybePushNextMessage (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\node_modules\@grpc\grpc-js\build\src\server-interceptors.js:575:31)
+    at BaseServerInterceptingCall.handleEndEvent (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\node_modules\@grpc\grpc-js\build\src\server-interceptors.js:615:14)
+    at ServerHttp2Stream.<anonymous> (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\node_modules\@grpc\grpc-js\build\src\server-interceptors.js:382:18)
+    at ServerHttp2Stream.emit (node:events:530:35)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+=============================================================
+{"level":30,"time":"2025-10-04T16:39:24.817Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Error of node method  evaluateJavascript"}
+{"level":30,"time":"2025-10-04T16:39:24.827Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method newContext"}
+{"level":30,"time":"2025-10-04T16:39:24.828Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Creating new context with options: {\"acceptDownloads\":true,\"bypassCSP\":false,\"forcedColors\":\"none\",\"ignoreHTTPSErrors\":false,\"javaScriptEnabled\":true,\"offline\":false,\"reducedMotion\":\"no-preference\",\"serviceWorkers\":\"allow\",\"viewport\":{\"height\":800,\"width\":1280}}"}
+{"level":30,"time":"2025-10-04T16:39:24.828Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"currentBrowser: [object Object]"}
+{"level":30,"time":"2025-10-04T16:39:24.828Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Trace file: "}
+{"level":30,"time":"2025-10-04T16:39:24.853Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Changed active context"}
+{"level":30,"time":"2025-10-04T16:39:24.854Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method newContext"}
+{"level":30,"time":"2025-10-04T16:39:24.861Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method evaluateJavascript"}
+================= Original suppressed error =================
+Error: No page open.
+    at PlaywrightServer.getActivePage (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\index.js:13126:24)
+    at PlaywrightServer.evaluateJavascript (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\index.js:13178:75)
+    at Object.onReceiveHalfClose (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\node_modules\@grpc\grpc-js\build\src\server.js:1461:25)
+    at BaseServerInterceptingCall.maybePushNextMessage (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\node_modules\@grpc\grpc-js\build\src\server-interceptors.js:575:31)
+    at BaseServerInterceptingCall.handleEndEvent (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\node_modules\@grpc\grpc-js\build\src\server-interceptors.js:615:14)
+    at ServerHttp2Stream.<anonymous> (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\node_modules\@grpc\grpc-js\build\src\server-interceptors.js:382:18)
+    at ServerHttp2Stream.emit (node:events:530:35)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+=============================================================
+{"level":30,"time":"2025-10-04T16:39:24.861Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Error of node method  evaluateJavascript"}
+{"level":30,"time":"2025-10-04T16:39:24.870Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method newPage"}
+{"level":30,"time":"2025-10-04T16:39:24.870Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"currentBrowser: [object Object]"}
+{"level":30,"time":"2025-10-04T16:39:25.455Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Video path: undefined"}
+{"level":30,"time":"2025-10-04T16:39:25.455Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Changed active page"}
+{"level":30,"time":"2025-10-04T16:39:25.990Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method newPage"}
+{"level":30,"time":"2025-10-04T16:39:26.003Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method evaluateJavascript"}
+{"level":30,"time":"2025-10-04T16:39:26.100Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method evaluateJavascript"}
+{"level":30,"time":"2025-10-04T16:39:26.105Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method goTo"}
+{"level":30,"time":"2025-10-04T16:39:26.315Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method goTo"}
+{"level":30,"time":"2025-10-04T16:39:26.321Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method evaluateJavascript"}
+{"level":30,"time":"2025-10-04T16:39:26.417Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method evaluateJavascript"}
+{"level":30,"time":"2025-10-04T16:39:26.420Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-10-04T16:39:26.420Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Strict mode is enabled, find Locator with h6:has-text(\"Login\") in page."}
+{"level":30,"time":"2025-10-04T16:39:26.459Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-10-04T16:39:26.464Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method evaluateJavascript"}
+{"level":30,"time":"2025-10-04T16:39:26.468Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method evaluateJavascript"}
+{"level":30,"time":"2025-10-04T16:39:26.474Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method scrollToElement"}
+{"level":30,"time":"2025-10-04T16:39:26.474Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Strict mode is enabled, find Locator with input#username in page."}
+{"level":30,"time":"2025-10-04T16:39:26.539Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method scrollToElement"}
+{"level":30,"time":"2025-10-04T16:39:26.544Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method highlightElements"}
+{"level":30,"time":"2025-10-04T16:39:26.545Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Strict mode is disabled, return Locator: input#username in page."}
+{"level":30,"time":"2025-10-04T16:39:26.552Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Locator count is 1"}
+{"level":30,"time":"2025-10-04T16:39:26.561Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method highlightElements"}
+{"level":30,"time":"2025-10-04T16:39:28.568Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method typeText"}
+{"level":30,"time":"2025-10-04T16:39:28.568Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Strict mode is enabled, find Locator with input#username in page."}
+{"level":30,"time":"2025-10-04T16:39:28.591Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method typeText"}
+{"level":30,"time":"2025-10-04T16:39:28.594Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method evaluateJavascript"}
+{"level":30,"time":"2025-10-04T16:39:28.596Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method evaluateJavascript"}
+{"level":30,"time":"2025-10-04T16:39:28.599Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method scrollToElement"}
+{"level":30,"time":"2025-10-04T16:39:28.600Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Strict mode is enabled, find Locator with input#password in page."}
+{"level":30,"time":"2025-10-04T16:39:28.620Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method scrollToElement"}
+{"level":30,"time":"2025-10-04T16:39:28.624Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method highlightElements"}
+{"level":30,"time":"2025-10-04T16:39:28.624Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Strict mode is disabled, return Locator: input#password in page."}
+{"level":30,"time":"2025-10-04T16:39:28.628Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Locator count is 1"}
+{"level":30,"time":"2025-10-04T16:39:28.634Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method highlightElements"}
+{"level":30,"time":"2025-10-04T16:39:30.640Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method typeText"}
+{"level":30,"time":"2025-10-04T16:39:30.640Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Strict mode is enabled, find Locator with input#password in page."}
+{"level":30,"time":"2025-10-04T16:39:30.682Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method typeText"}
+{"level":30,"time":"2025-10-04T16:39:30.686Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method evaluateJavascript"}
+{"level":30,"time":"2025-10-04T16:39:30.688Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method evaluateJavascript"}
+{"level":30,"time":"2025-10-04T16:39:30.690Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method scrollToElement"}
+{"level":30,"time":"2025-10-04T16:39:30.690Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Strict mode is enabled, find Locator with button:has-text(\"Login\") in page."}
+{"level":30,"time":"2025-10-04T16:39:30.735Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method scrollToElement"}
+{"level":30,"time":"2025-10-04T16:39:30.737Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method highlightElements"}
+{"level":30,"time":"2025-10-04T16:39:30.737Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Strict mode is disabled, return Locator: button:has-text(\"Login\") in page."}
+{"level":30,"time":"2025-10-04T16:39:30.739Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Locator count is 1"}
+{"level":30,"time":"2025-10-04T16:39:30.742Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method highlightElements"}
+{"level":30,"time":"2025-10-04T16:39:32.751Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method click"}
+{"level":30,"time":"2025-10-04T16:39:32.752Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Strict mode is enabled, find Locator with button:has-text(\"Login\") in page."}
+{"level":30,"time":"2025-10-04T16:39:32.860Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method click"}
+{"level":30,"time":"2025-10-04T16:39:32.870Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method evaluateJavascript"}
+{"level":30,"time":"2025-10-04T16:39:32.873Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method evaluateJavascript"}
+{"level":30,"time":"2025-10-04T16:39:32.876Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-10-04T16:39:32.876Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Strict mode is enabled, find Locator with a:has-text(\"Home\") in page."}
+{"level":30,"time":"2025-10-04T16:39:42.890Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Error of node method  waitForElementState"}
+================= Original suppressed error =================
+locator.waitFor: Timeout 10000ms exceeded.
+Call log:
+[2m  - waiting for locator('a:has-text("Home")') to be visible[22m
+
+    at waitForElementState (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\index.js:11283:19)
+    at async PlaywrightServer.waitForElementsState (C:\Users\melisafeb2025\AppData\Roaming\Python\Python313\site-packages\Browser\wrapper\index.js:13135:28) {
+  name: 'TimeoutError'
+}
+=============================================================
+{"level":30,"time":"2025-10-04T16:39:42.895Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method takeScreenshot"}
+{"level":30,"time":"2025-10-04T16:39:42.895Z","pid":6812,"hostname":"DESKTOP-HS3URPD","Take screenshot with options: ":{"path":"C:\\Users\\melisafeb2025\\Desktop\\summer_practice_nokia\\summer_practice_my_version\\smart-energy-saving\\browser\\screenshot\\fail-screenshot-1.png","fileType":"png","fullPage":false,"timeout":10000,"omitBackground":false}}
+{"level":30,"time":"2025-10-04T16:39:43.201Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method takeScreenshot"}
+{"level":30,"time":"2025-10-04T16:39:43.284Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method evaluateJavascript"}
+{"level":30,"time":"2025-10-04T16:39:43.300Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method evaluateJavascript"}
+{"level":30,"time":"2025-10-04T16:39:43.303Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method waitForElementState"}
+{"level":30,"time":"2025-10-04T16:39:43.303Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Strict mode is enabled, find Locator with button:has-text(\"Login\") in page."}
+{"level":30,"time":"2025-10-04T16:39:43.312Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method waitForElementState"}
+{"level":30,"time":"2025-10-04T16:39:48.326Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:39:48.329Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:39:48.333Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:39:48.335Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:39:48.337Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:39:48.345Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:39:48.349Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:39:48.352Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:39:48.355Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Changed active context"}
+{"level":30,"time":"2025-10-04T16:39:48.355Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Changing current active page: page=96e6fbe1-ac71-432b-b0a5-26d29673b903"}
+{"level":30,"time":"2025-10-04T16:39:48.355Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Changed active page"}
+{"level":30,"time":"2025-10-04T16:39:48.363Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method closeContext"}
+{"level":30,"time":"2025-10-04T16:39:48.373Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Removed page=88935904-3c93-4349-9bde-2cea4eae676a from context=c0119789-d799-4171-876a-123f0c94e00e page stack"}
+{"level":30,"time":"2025-10-04T16:39:48.425Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method closeContext"}
+{"level":30,"time":"2025-10-04T16:39:48.466Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:39:48.466Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method getBrowserCatalog"}
+{"level":30,"time":"2025-10-04T16:39:50.541Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"Start of node method closeAllBrowsers"}
+{"level":30,"time":"2025-10-04T16:39:50.738Z","pid":6812,"hostname":"DESKTOP-HS3URPD","msg":"End of node method closeAllBrowsers"}

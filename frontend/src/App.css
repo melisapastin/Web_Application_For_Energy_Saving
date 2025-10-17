@@ -1,0 +1,310 @@
+body {
+  margin: 0;
+  color: black;
+  font-family: sans-serif;
+  overflow-y: auto;
+  height: auto;
+  background-color: #95f395;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #dbfedb;
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  background-color: #dbfedb;
+}
+
+/* Sidebar: fixed height and non-scrolling */
+.sidebar {
+  width: 280px;
+  background-color: #00e500;
+  border-right: 2px solid #00ff00;
+  flex-shrink: 0;
+  height: 100vh;
+  overflow: hidden;
+  position: sticky;
+  top: 0;
+}
+
+/* Main content: scrollable */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  height: 100vh;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+/* Optional toggle button */
+.btn-toggle {
+  cursor: pointer;
+  display: none;
+}
+
+/* Sidebar button styling */
+.sidebar-btn-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-btn {
+  padding: 1px 15px;
+  border-radius: 40px;
+  background: #95f395;
+  color: #95f395;
+  text-decoration: none;
+  margin: 0 auto;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.sidebar-btn span {
+  margin-left: 5px;
+  font-size: 13px;
+}
+
+.sidebar-btn:hover {
+  color: #d8d8d8;
+}
+
+/* Login container */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  place-items: center;
+  text-align: center;
+  background-color: #95f395;
+  min-height: 100vh; /* Add this */
+  justify-content: center; /* Add this */
+}
+
+/* Welcome section */
+.welcome {
+  background-color: #95f395;
+  width: 100%;
+  background-size: cover !important;
+  min-height: 50px !important;
+  height: 14rem !important;
+  background-position-y: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4rem;
+}
+
+.welcome-text {
+  font-size: xxx-large;
+  color: black;
+}
+
+/* Steps section */
+.steps {
+  width: 100%;
+  margin-top: 2rem;
+  padding: 3rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.step-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step-title {
+  font-size: large;
+  font-weight: bold;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.step-description {
+  margin-top: 0.5rem;
+  width: 20rem;
+  text-align: justify;
+}
+
+.dashboard-container {
+  padding: 20px;
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: white;
+}
+
+.cards-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.energy-card {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.card-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  font-size: 20px;
+}
+
+.today-icon {
+  background-color: #e6f7ff;
+  color: #1890ff;
+}
+
+.month-icon {
+  background-color: #f6ffed;
+  color: #52c41a;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-title {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.card-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Home Container */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Welcome Box - Green header with rounded corners */
+.welcome-box {
+  background-color: #95f395;
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: black;
+  margin-bottom: 0.5rem;
+}
+
+.welcome-subtitle {
+  font-size: 1.2rem;
+  color: #333;
+  margin-top: 0;
+}
+
+/* Steps Container */
+.steps-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
+  width: 100%;
+}
+
+/* Step Cards - White squares with rounded edges */
+.step-card {
+  background-color: white;
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  flex: 1;
+  min-width: 250px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.step-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.step-icon {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #f0faf0;
+}
+
+.step-title {
+  font-size: 1.5rem;
+  color: #235c23;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.step-description {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.5;
+  text-align: center;
+  margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .steps-container {
+    flex-direction: column;
+  }
+  
+  .welcome-title {
+    font-size: 2rem;
+  }
+  
+  .welcome-subtitle {
+    font-size: 1rem;
+  }
+}
