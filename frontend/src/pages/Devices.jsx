@@ -2,14 +2,22 @@ import { useState, useEffect } from 'react';
 import { 
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
   Paper, TextField, Button, Box, Snackbar, Alert, Typography,
-  Card, CardContent, FormControl, IconButton, Menu, MenuItem
+  Card, CardContent, FormControl, IconButton, Menu, MenuItem,
+  InputAdornment, Collapse
 } from '@mui/material';
 import DevicesIcon from '@mui/icons-material/Devices';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import SearchIcon from '@mui/icons-material/Search';
+import ClearIcon from '@mui/icons-material/Clear';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import axios from 'axios';
 
 const DeviceTable = () => {
   const [devices, setDevices] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showSearchResults, setShowSearchResults] = useState(false);
   const [newDevice, setNewDevice] = useState({
     deviceName: '',
     group: '',
@@ -30,6 +38,25 @@ const DeviceTable = () => {
   useEffect(() => {
     fetchDevices();
   }, []);
+
+  // Update search results when devices or search term changes
+  useEffect(() => {
+    if (searchTerm.trim() === '') {
+      setSearchResults([]);
+      setShowSearchResults(false);
+    } else {
+      const filtered = devices.filter(device =>
+        device.deviceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        device.group.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        device.powerOnTime.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        device.powerOffTime.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        device.count.toString().includes(searchTerm) ||
+        device.consumptionPerHour.toString().includes(searchTerm)
+      );
+      setSearchResults(filtered);
+      setShowSearchResults(filtered.length > 0);
+    }
+  }, [devices, searchTerm]);
 
   // Extract MongoDB ObjectId strings from backend response
   const extractId = (idObj) => {
@@ -53,6 +80,19 @@ const DeviceTable = () => {
       console.error('Error fetching devices:', error);
       setError(`Fetch error: ${error.message}`);
     }
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const clearSearch = () => {
+    setSearchTerm('');
+    setShowSearchResults(false);
+  };
+
+  const toggleSearchResults = () => {
+    setShowSearchResults(!showSearchResults);
   };
 
   const handleMenuOpen = (event, device) => {
@@ -237,6 +277,85 @@ const DeviceTable = () => {
     setSuccess(null);
   };
 
+  // Reusable table component
+  const DeviceTableContent = ({ devices, title }) => (
+    <TableContainer 
+      component={Paper} 
+      sx={{ 
+        marginBottom: 4,
+        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.08)',
+        borderRadius: '10px'
+      }}
+    >
+      {title && (
+        <Box sx={{ 
+          padding: '16px', 
+          backgroundColor: '#f8f9fa',
+          borderBottom: '2px solid #e0e0e0'
+        }}>
+          <Typography 
+            variant="h6" 
+            sx={{ 
+              fontWeight: 'bold',
+              color: 'black',
+              letterSpacing: '0.5px'
+            }}
+          >
+            {title}
+          </Typography>
+        </Box>
+      )}
+      <Table>
+        <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
+          <TableRow>
+            <TableCell sx={{ fontWeight: 'bold', color: 'black' }}>Device Name</TableCell>
+            <TableCell sx={{ fontWeight: 'bold', color: 'black' }}>Group</TableCell>
+            <TableCell sx={{ fontWeight: 'bold', color: 'black' }}>Power On Time</TableCell>
+            <TableCell sx={{ fontWeight: 'bold', color: 'black' }}>Power Off Time</TableCell>
+            <TableCell sx={{ fontWeight: 'bold', color: 'black' }}>Count</TableCell>
+            <TableCell sx={{ fontWeight: 'bold', color: 'black' }}>Consumption per Hour (kWh)</TableCell>
+            <TableCell sx={{ fontWeight: 'bold', color: 'black' }}>Action</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {devices.map((device, index) => (
+            <TableRow 
+              key={`${device._id}-${index}`}
+              sx={{ 
+                '&:nth-of-type(odd)': { backgroundColor: '#fafafa' },
+                '&:last-child td, &:last-child th': { border: 0 }
+              }}
+            >
+              <TableCell>{device.deviceName}</TableCell>
+              <TableCell>{device.group}</TableCell>
+              <TableCell>{device.powerOnTime}</TableCell>
+              <TableCell>{device.powerOffTime}</TableCell>
+              <TableCell>{device.count}</TableCell>
+              <TableCell>{device.consumptionPerHour}</TableCell>
+              <TableCell>
+                <IconButton
+                  aria-label="actions"
+                  onClick={(e) => handleMenuOpen(e, device)}
+                >
+                  <MoreVertIcon />
+                </IconButton>
+              </TableCell>
+            </TableRow>
+          ))}
+          {devices.length === 0 && (
+            <TableRow>
+              <TableCell colSpan={7} align="center" sx={{ py: 3 }}>
+                <Typography variant="body1" color="text.secondary">
+                  No devices found
+                </Typography>
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+
   return (
     <Box sx={{ 
       width: '80vw', 
@@ -274,55 +393,80 @@ const DeviceTable = () => {
         </Typography>
       </Box>
 
-      {/* Device Table */}
-      <TableContainer 
-        component={Paper} 
-        sx={{ 
-          marginBottom: 4,
-          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.08)',
-          borderRadius: '10px'
-        }}
-      >
-        <Table>
-          <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
-            <TableRow>
-              <TableCell sx={{ fontWeight: 'bold' }}>Device Name</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Group</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Power On Time</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Power Off Time</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Count</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Consumption per Hour (kWh)</TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }}>Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {devices.map((device, index) => (
-              <TableRow 
-                key={index}
-                sx={{ 
-                  '&:nth-of-type(odd)': { backgroundColor: '#fafafa' },
-                  '&:last-child td, &:last-child th': { border: 0 }
-                }}
+      {/* Search Filter Section */}
+      <Box sx={{ mb: 3 }}>
+        <TextField
+          fullWidth
+          variant="outlined"
+          placeholder="Search devices by name, group, time, count, or consumption..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon color="action" />
+              </InputAdornment>
+            ),
+            endAdornment: searchTerm && (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="clear search"
+                  onClick={clearSearch}
+                  edge="end"
+                  size="small"
+                >
+                  <ClearIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+          sx={{
+            '& .MuiOutlinedInput-root': {
+              borderRadius: '8px',
+              backgroundColor: '#fff',
+              boxShadow: '0px 2px 6px rgba(0,0,0,0.05)',
+            }
+          }}
+        />
+        {searchTerm && (
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
+            <Typography 
+              variant="body2" 
+              color="text.secondary" 
+              sx={{ flexGrow: 1 }}
+            >
+              Found {searchResults.length} matching device{searchResults.length !== 1 ? 's' : ''}
+              {searchResults.length === 0 && ' - No matches found'}
+            </Typography>
+            {searchResults.length > 0 && (
+              <Button
+                startIcon={showSearchResults ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                onClick={toggleSearchResults}
+                size="small"
+                sx={{ textTransform: 'none' }}
               >
-                <TableCell>{device.deviceName}</TableCell>
-                <TableCell>{device.group}</TableCell>
-                <TableCell>{device.powerOnTime}</TableCell>
-                <TableCell>{device.powerOffTime}</TableCell>
-                <TableCell>{device.count}</TableCell>
-                <TableCell>{device.consumptionPerHour}</TableCell>
-                <TableCell>
-                  <IconButton
-                    aria-label="actions"
-                    onClick={(e) => handleMenuOpen(e, device)}
-                  >
-                    <MoreVertIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                {showSearchResults ? 'Hide Results' : 'Show Results'}
+              </Button>
+            )}
+          </Box>
+        )}
+      </Box>
+
+      {/* Search Results Section */}
+      {searchTerm && searchResults.length > 0 && (
+        <Collapse in={showSearchResults}>
+          <DeviceTableContent 
+            devices={searchResults} 
+            title={`Search Results (${searchResults.length} device${searchResults.length !== 1 ? 's' : ''} found)`}
+          />
+        </Collapse>
+      )}
+
+      {/* Main Device Table */}
+      <DeviceTableContent 
+        devices={devices} 
+        title="All Devices"
+      />
 
       {/* Action Menu */}
       <Menu
