@@ -409,14 +409,13 @@ const DeviceTable = () => {
             <Chip 
               label={`${activeFiltersCount} active`} 
               size="small" 
-              color="primary" 
-              sx={{ ml: 2 }}
+              sx={{ ml: 2, color: '#235c23'}}
             />
           )}
           <Button 
             size="small" 
             onClick={clearAllFilters}
-            sx={{ ml: 'auto' }}
+            sx={{ ml: 'auto', color: '#235c23' }}
             disabled={activeFiltersCount === 0}
           >
             Clear All
@@ -557,8 +556,8 @@ const DeviceTable = () => {
                     key={key}
                     label={`${key}: ${value}`}
                     size="small"
+                    sx={{ color: '#235c23'}}
                     onDelete={() => handleFilterChange(key, '')}
-                    color="primary"
                     variant="outlined"
                   />
                 )
