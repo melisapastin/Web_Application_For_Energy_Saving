@@ -3,22 +3,19 @@ import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
   Paper, TextField, Button, Box, Snackbar, Alert, Typography,
   Card, CardContent, FormControl, IconButton, Menu, MenuItem,
-  InputAdornment, Collapse, Select
+  InputAdornment, Select, InputLabel, Chip, Grid
 } from '@mui/material';
 import DevicesIcon from '@mui/icons-material/Devices';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import axios from 'axios';
 
 const DeviceTable = () => {
   const [devices, setDevices] = useState([]);
-  const [searchResults, setSearchResults] = useState([]);
+  const [filteredDevices, setFilteredDevices] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [showSearchResults, setShowSearchResults] = useState(false);
   const [newDevice, setNewDevice] = useState({
     deviceName: '',
     group: '',
@@ -35,12 +32,14 @@ const DeviceTable = () => {
   const [editingDeviceId, setEditingDeviceId] = useState(null);
 
   // Filter states
-  const [deviceNameFilter, setDeviceNameFilter] = useState('');
-  const [groupFilter, setGroupFilter] = useState('');
-  const [powerOnTimeFilter, setPowerOnTimeFilter] = useState('');
-  const [powerOffTimeFilter, setPowerOffTimeFilter] = useState('');
-  const [countFilter, setCountFilter] = useState('');
-  const [consumptionFilter, setConsumptionFilter] = useState('');
+  const [filters, setFilters] = useState({
+    deviceName: '',
+    group: '',
+    powerOnTime: '',
+    powerOffTime: '',
+    count: '',
+    consumptionPerHour: ''
+  });
 
   const API_BASE_URL = 'http://localhost:5000';
 
@@ -48,64 +47,47 @@ const DeviceTable = () => {
     fetchDevices();
   }, []);
 
-  // Extract unique values for filters
-  const deviceNameOptions = [...new Set(devices.map(device => device.deviceName))].sort();
-  const groupOptions = [...new Set(devices.map(device => device.group))].sort();
-  const powerOnTimeOptions = [...new Set(devices.map(device => device.powerOnTime))].sort();
-  const powerOffTimeOptions = [...new Set(devices.map(device => device.powerOffTime))].sort();
-  const countOptions = [...new Set(devices.map(device => device.count.toString()))].sort((a, b) => parseInt(a) - parseInt(b));
-  const consumptionOptions = [...new Set(devices.map(device => device.consumptionPerHour.toString()))].sort((a, b) => parseFloat(a) - parseFloat(b));
+  // Extract unique values for filter dropdowns
+  const getUniqueValues = (key) => {
+    const uniqueValues = [...new Set(devices.map(device => device[key]))];
+    return uniqueValues.sort();
+  };
 
-  // Update search results when devices, search term, or filters change
+  // Update filtered devices when devices, search term, or filters change
   useEffect(() => {
-    if (searchTerm.trim() === '' && 
-        !deviceNameFilter && 
-        !groupFilter && 
-        !powerOnTimeFilter && 
-        !powerOffTimeFilter && 
-        !countFilter && 
-        !consumptionFilter) {
-      setSearchResults([]);
-      setShowSearchResults(false);
-    } else {
-      let filtered = devices;
+    let filtered = devices;
 
-      // Apply text search
-      if (searchTerm.trim() !== '') {
-        filtered = filtered.filter(device =>
-          device.deviceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          device.group.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          device.powerOnTime.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          device.powerOffTime.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          device.count.toString().includes(searchTerm) ||
-          device.consumptionPerHour.toString().includes(searchTerm)
-        );
-      }
-
-      // Apply filters
-      if (deviceNameFilter) {
-        filtered = filtered.filter(device => device.deviceName === deviceNameFilter);
-      }
-      if (groupFilter) {
-        filtered = filtered.filter(device => device.group === groupFilter);
-      }
-      if (powerOnTimeFilter) {
-        filtered = filtered.filter(device => device.powerOnTime === powerOnTimeFilter);
-      }
-      if (powerOffTimeFilter) {
-        filtered = filtered.filter(device => device.powerOffTime === powerOffTimeFilter);
-      }
-      if (countFilter) {
-        filtered = filtered.filter(device => device.count.toString() === countFilter);
-      }
-      if (consumptionFilter) {
-        filtered = filtered.filter(device => device.consumptionPerHour.toString() === consumptionFilter);
-      }
-
-      setSearchResults(filtered);
-      setShowSearchResults(filtered.length > 0);
+    // Apply search term filter
+    if (searchTerm.trim() !== '') {
+      filtered = filtered.filter(device =>
+        device.deviceName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        device.group.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        device.powerOnTime.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        device.powerOffTime.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        device.count.toString().includes(searchTerm) ||
+        device.consumptionPerHour.toString().includes(searchTerm)
+      );
     }
-  }, [devices, searchTerm, deviceNameFilter, groupFilter, powerOnTimeFilter, powerOffTimeFilter, countFilter, consumptionFilter]);
+
+    // Apply column filters
+    Object.keys(filters).forEach(key => {
+      if (filters[key]) {
+        if (key === 'count' || key === 'consumptionPerHour') {
+          // For numeric fields, compare as numbers
+          filtered = filtered.filter(device => 
+            device[key].toString() === filters[key]
+          );
+        } else {
+          // For string fields, compare as strings
+          filtered = filtered.filter(device => 
+            device[key].toString().toLowerCase() === filters[key].toLowerCase()
+          );
+        }
+      }
+    });
+
+    setFilteredDevices(filtered);
+  }, [devices, searchTerm, filters]);
 
   // Extract MongoDB ObjectId strings from backend response
   const extractId = (idObj) => {
@@ -125,6 +107,7 @@ const DeviceTable = () => {
       }));
       
       setDevices(formattedDevices);
+      setFilteredDevices(formattedDevices);
     } catch (error) {
       console.error('Error fetching devices:', error);
       setError(`Fetch error: ${error.message}`);
@@ -137,22 +120,24 @@ const DeviceTable = () => {
 
   const clearSearch = () => {
     setSearchTerm('');
-    setShowSearchResults(false);
+  };
+
+  const handleFilterChange = (column, value) => {
+    setFilters(prev => ({
+      ...prev,
+      [column]: value
+    }));
   };
 
   const clearAllFilters = () => {
-    setDeviceNameFilter('');
-    setGroupFilter('');
-    setPowerOnTimeFilter('');
-    setPowerOffTimeFilter('');
-    setCountFilter('');
-    setConsumptionFilter('');
-    setSearchTerm('');
-    setShowSearchResults(false);
-  };
-
-  const toggleSearchResults = () => {
-    setShowSearchResults(!showSearchResults);
+    setFilters({
+      deviceName: '',
+      group: '',
+      powerOnTime: '',
+      powerOffTime: '',
+      count: '',
+      consumptionPerHour: ''
+    });
   };
 
   const handleMenuOpen = (event, device) => {
@@ -162,7 +147,6 @@ const DeviceTable = () => {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-    // Don't reset selectedDevice here
   };
 
   const handleMenuAction = (action) => {
@@ -179,7 +163,7 @@ const DeviceTable = () => {
       });
     }
     else if (action === 'remove') {
-      handleRemoveDevice(); // Directly call removal without confirmation
+      handleRemoveDevice();
     }
     handleMenuClose();
   };
@@ -198,7 +182,7 @@ const DeviceTable = () => {
       console.error('Error removing device:', error);
       setError(`Failed to remove device: ${error.message}`);
     } finally {
-      setSelectedDevice(null); // Reset here after deletion
+      setSelectedDevice(null);
     }
   };
 
@@ -337,133 +321,8 @@ const DeviceTable = () => {
     setSuccess(null);
   };
 
-  // Button styles
-  const primaryButtonStyle = {
-    backgroundColor: '#235c23',
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: '0.875rem',
-    textTransform: 'none',
-    borderRadius: '8px',
-    boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)',
-    padding: '8px 16px',
-    '&:hover': {
-      backgroundColor: '#1a451a',
-      boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)',
-    }
-  };
-
-  const secondaryButtonStyle = {
-    backgroundColor: 'white',
-    color: '#235c23',
-    border: '1.5px solid #235c23',
-    fontWeight: 'bold',
-    fontSize: '0.875rem',
-    textTransform: 'none',
-    borderRadius: '8px',
-    padding: '8px 16px',
-    '&:hover': {
-      backgroundColor: '#f0f7f0',
-      border: '1.5px solid #1a451a',
-    }
-  };
-
-  const textButtonStyle = {
-    color: '#235c23',
-    fontWeight: '600',
-    fontSize: '0.875rem',
-    textTransform: 'none',
-    borderRadius: '6px',
-    padding: '4px 12px',
-    '&:hover': {
-      backgroundColor: '#f0f7f0',
-    }
-  };
-
-  // Reusable table component
-  const DeviceTableContent = ({ devices, title }) => (
-    <TableContainer 
-      component={Paper} 
-      sx={{ 
-        marginBottom: 4,
-        boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.08)',
-        borderRadius: '10px'
-      }}
-    >
-      {title && (
-        <Box sx={{ 
-          padding: '16px', 
-          backgroundColor: '#f8f9fa',
-          borderBottom: '2px solid #e0e0e0'
-        }}>
-          <Typography 
-            variant="h6" 
-            sx={{ 
-              fontWeight: 'bold',
-              color: 'black',
-              letterSpacing: '0.5px'
-            }}
-          >
-            {title}
-          </Typography>
-        </Box>
-      )}
-      <Table>
-        <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
-          <TableRow>
-            <TableCell sx={{ fontWeight: 'bold', color: 'black' }}>Device Name</TableCell>
-            <TableCell sx={{ fontWeight: 'bold', color: 'black' }}>Group</TableCell>
-            <TableCell sx={{ fontWeight: 'bold', color: 'black' }}>Power On Time</TableCell>
-            <TableCell sx={{ fontWeight: 'bold', color: 'black' }}>Power Off Time</TableCell>
-            <TableCell sx={{ fontWeight: 'bold', color: 'black' }}>Count</TableCell>
-            <TableCell sx={{ fontWeight: 'bold', color: 'black' }}>Consumption per Hour (kWh)</TableCell>
-            <TableCell sx={{ fontWeight: 'bold', color: 'black' }}>Action</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {devices.map((device, index) => (
-            <TableRow 
-              key={`${device._id}-${index}`}
-              sx={{ 
-                '&:nth-of-type(odd)': { backgroundColor: '#fafafa' },
-                '&:last-child td, &:last-child th': { border: 0 }
-              }}
-            >
-              <TableCell>{device.deviceName}</TableCell>
-              <TableCell>{device.group}</TableCell>
-              <TableCell>{device.powerOnTime}</TableCell>
-              <TableCell>{device.powerOffTime}</TableCell>
-              <TableCell>{device.count}</TableCell>
-              <TableCell>{device.consumptionPerHour}</TableCell>
-              <TableCell>
-                <IconButton
-                  aria-label="actions"
-                  onClick={(e) => handleMenuOpen(e, device)}
-                  sx={{
-                    color: '#235c23',
-                    '&:hover': {
-                      backgroundColor: '#f0f7f0',
-                    }
-                  }}
-                >
-                  <MoreVertIcon />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
-          {devices.length === 0 && (
-            <TableRow>
-              <TableCell colSpan={7} align="center" sx={{ py: 3 }}>
-                <Typography variant="body1" color="text.secondary">
-                  No devices found
-                </Typography>
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
+  // Count active filters
+  const activeFiltersCount = Object.values(filters).filter(value => value !== '').length;
 
   return (
     <Box sx={{ 
@@ -502,8 +361,8 @@ const DeviceTable = () => {
         </Typography>
       </Box>
 
-      {/* Search Filter Section */}
-      <Box sx={{ mb: 3 }}>
+      {/* Search Section */}
+      <Box sx={{ mb: 2 }}>
         <TextField
           fullWidth
           variant="outlined"
@@ -523,12 +382,6 @@ const DeviceTable = () => {
                   onClick={clearSearch}
                   edge="end"
                   size="small"
-                  sx={{
-                    color: '#666',
-                    '&:hover': {
-                      backgroundColor: '#f0f0f0',
-                    }
-                  }}
                 >
                   <ClearIcon />
                 </IconButton>
@@ -543,243 +396,245 @@ const DeviceTable = () => {
             }
           }}
         />
-        
-        {/* Filter Row */}
-        <Box sx={{ display: 'flex', gap: 2, mt: 2, alignItems: 'center', flexWrap: 'wrap' }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', mr: 1 }}>
-            <FilterListIcon sx={{ mr: 1, color: '#235c23' }} />
-            <Typography variant="body2" color="text.secondary" sx={{ fontWeight: '600' }}>
-              Filter by:
-            </Typography>
-          </Box>
-          
-          <FormControl size="small" sx={{ minWidth: 120 }}>
-            <Select
-              value={deviceNameFilter}
-              onChange={(e) => setDeviceNameFilter(e.target.value)}
-              displayEmpty
-              renderValue={(selected) => selected || "Device Name"}
-              sx={{
-                borderRadius: '8px',
-                backgroundColor: 'white',
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#e0e0e0',
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#235c23',
-                }
-              }}
-            >
-              <MenuItem value="">All Devices</MenuItem>
-              {deviceNameOptions.map((name) => (
-                <MenuItem key={name} value={name}>{name}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+      </Box>
 
-          <FormControl size="small" sx={{ minWidth: 120 }}>
-            <Select
-              value={groupFilter}
-              onChange={(e) => setGroupFilter(e.target.value)}
-              displayEmpty
-              renderValue={(selected) => selected || "Group"}
-              sx={{
-                borderRadius: '8px',
-                backgroundColor: 'white',
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#e0e0e0',
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#235c23',
-                }
-              }}
-            >
-              <MenuItem value="">All Groups</MenuItem>
-              {groupOptions.map((group) => (
-                <MenuItem key={group} value={group}>{group}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <FormControl size="small" sx={{ minWidth: 120 }}>
-            <Select
-              value={powerOnTimeFilter}
-              onChange={(e) => setPowerOnTimeFilter(e.target.value)}
-              displayEmpty
-              renderValue={(selected) => selected || "Power On Time"}
-              sx={{
-                borderRadius: '8px',
-                backgroundColor: 'white',
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#e0e0e0',
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#235c23',
-                }
-              }}
-            >
-              <MenuItem value="">All Times</MenuItem>
-              {powerOnTimeOptions.map((time) => (
-                <MenuItem key={time} value={time}>{time}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <FormControl size="small" sx={{ minWidth: 120 }}>
-            <Select
-              value={powerOffTimeFilter}
-              onChange={(e) => setPowerOffTimeFilter(e.target.value)}
-              displayEmpty
-              renderValue={(selected) => selected || "Power Off Time"}
-              sx={{
-                borderRadius: '8px',
-                backgroundColor: 'white',
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#e0e0e0',
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#235c23',
-                }
-              }}
-            >
-              <MenuItem value="">All Times</MenuItem>
-              {powerOffTimeOptions.map((time) => (
-                <MenuItem key={time} value={time}>{time}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <FormControl size="small" sx={{ minWidth: 120 }}>
-            <Select
-              value={countFilter}
-              onChange={(e) => setCountFilter(e.target.value)}
-              displayEmpty
-              renderValue={(selected) => selected || "Count"}
-              sx={{
-                borderRadius: '8px',
-                backgroundColor: 'white',
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#e0e0e0',
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#235c23',
-                }
-              }}
-            >
-              <MenuItem value="">All Counts</MenuItem>
-              {countOptions.map((count) => (
-                <MenuItem key={count} value={count}>{count}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <FormControl size="small" sx={{ minWidth: 140 }}>
-            <Select
-              value={consumptionFilter}
-              onChange={(e) => setConsumptionFilter(e.target.value)}
-              displayEmpty
-              renderValue={(selected) => selected || "Consumption"}
-              sx={{
-                borderRadius: '8px',
-                backgroundColor: 'white',
-                '& .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#e0e0e0',
-                },
-                '&:hover .MuiOutlinedInput-notchedOutline': {
-                  borderColor: '#235c23',
-                }
-              }}
-            >
-              <MenuItem value="">All Values</MenuItem>
-              {consumptionOptions.map((consumption) => (
-                <MenuItem key={consumption} value={consumption}>{consumption} kWh</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
+      {/* Filters Section */}
+      <Card sx={{ mb: 3, p: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+          <FilterListIcon sx={{ mr: 1, color: '#235c23' }} />
+          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+            Filters
+          </Typography>
+          {activeFiltersCount > 0 && (
+            <Chip 
+              label={`${activeFiltersCount} active`} 
+              size="small" 
+              color="primary" 
+              sx={{ ml: 2 }}
+            />
+          )}
           <Button 
-            variant="outlined" 
             size="small" 
             onClick={clearAllFilters}
-            sx={secondaryButtonStyle}
+            sx={{ ml: 'auto' }}
+            disabled={activeFiltersCount === 0}
           >
             Clear All
           </Button>
         </Box>
 
-        {(searchTerm || deviceNameFilter || groupFilter || powerOnTimeFilter || powerOffTimeFilter || countFilter || consumptionFilter) && (
-          <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
-            <Typography 
-              variant="body2" 
-              color="text.secondary" 
-              sx={{ flexGrow: 1 }}
-            >
-              Found {searchResults.length} matching device{searchResults.length !== 1 ? 's' : ''}
-              {searchResults.length === 0 && ' - No matches found'}
-            </Typography>
-            {searchResults.length > 0 && (
-              <Button
-                startIcon={showSearchResults ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                onClick={toggleSearchResults}
-                size="small"
-                sx={textButtonStyle}
+        <Grid container spacing={2}>
+          {/* Device Name Filter */}
+          <Grid item xs={12} sm={6} md={4} lg={2}>
+            <FormControl fullWidth size="small">
+              <InputLabel>Device Name</InputLabel>
+              <Select
+                value={filters.deviceName}
+                label="Device Name"
+                onChange={(e) => handleFilterChange('deviceName', e.target.value)}
               >
-                {showSearchResults ? 'Hide Results' : 'Show Results'}
-              </Button>
+                <MenuItem value="">
+                  <em>All Devices</em>
+                </MenuItem>
+                {getUniqueValues('deviceName').map(name => (
+                  <MenuItem key={name} value={name}>{name}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          {/* Group Filter */}
+          <Grid item xs={12} sm={6} md={4} lg={2}>
+            <FormControl fullWidth size="small">
+              <InputLabel>Group</InputLabel>
+              <Select
+                value={filters.group}
+                label="Group"
+                onChange={(e) => handleFilterChange('group', e.target.value)}
+              >
+                <MenuItem value="">
+                  <em>All Groups</em>
+                </MenuItem>
+                {getUniqueValues('group').map(group => (
+                  <MenuItem key={group} value={group}>{group}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          {/* Power On Time Filter */}
+          <Grid item xs={12} sm={6} md={4} lg={2}>
+            <FormControl fullWidth size="small">
+              <InputLabel>Power On Time</InputLabel>
+              <Select
+                value={filters.powerOnTime}
+                label="Power On Time"
+                onChange={(e) => handleFilterChange('powerOnTime', e.target.value)}
+              >
+                <MenuItem value="">
+                  <em>All Times</em>
+                </MenuItem>
+                {getUniqueValues('powerOnTime').map(time => (
+                  <MenuItem key={time} value={time}>{time}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          {/* Power Off Time Filter */}
+          <Grid item xs={12} sm={6} md={4} lg={2}>
+            <FormControl fullWidth size="small">
+              <InputLabel>Power Off Time</InputLabel>
+              <Select
+                value={filters.powerOffTime}
+                label="Power Off Time"
+                onChange={(e) => handleFilterChange('powerOffTime', e.target.value)}
+              >
+                <MenuItem value="">
+                  <em>All Times</em>
+                </MenuItem>
+                {getUniqueValues('powerOffTime').map(time => (
+                  <MenuItem key={time} value={time}>{time}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          {/* Count Filter */}
+          <Grid item xs={12} sm={6} md={4} lg={2}>
+            <FormControl fullWidth size="small">
+              <InputLabel>Count</InputLabel>
+              <Select
+                value={filters.count}
+                label="Count"
+                onChange={(e) => handleFilterChange('count', e.target.value)}
+              >
+                <MenuItem value="">
+                  <em>All Counts</em>
+                </MenuItem>
+                {getUniqueValues('count').map(count => (
+                  <MenuItem key={count} value={count.toString()}>{count}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+
+          {/* Consumption Filter */}
+          <Grid item xs={12} sm={6} md={4} lg={2}>
+            <FormControl fullWidth size="small">
+              <InputLabel>Consumption</InputLabel>
+              <Select
+                value={filters.consumptionPerHour}
+                label="Consumption"
+                onChange={(e) => handleFilterChange('consumptionPerHour', e.target.value)}
+              >
+                <MenuItem value="">
+                  <em>All Values</em>
+                </MenuItem>
+                {getUniqueValues('consumptionPerHour').map(consumption => (
+                  <MenuItem key={consumption} value={consumption.toString()}>{consumption}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+      </Card>
+
+      {/* Results Info */}
+      {searchTerm || activeFiltersCount > 0 ? (
+        <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Typography variant="body2" color="text.secondary">
+            Showing {filteredDevices.length} of {devices.length} devices
+            {filteredDevices.length === 0 && ' - No matches found'}
+          </Typography>
+          
+          {/* Active Filters Display */}
+          {activeFiltersCount > 0 && (
+            <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+              {Object.entries(filters).map(([key, value]) => 
+                value && (
+                  <Chip
+                    key={key}
+                    label={`${key}: ${value}`}
+                    size="small"
+                    onDelete={() => handleFilterChange(key, '')}
+                    color="primary"
+                    variant="outlined"
+                  />
+                )
+              )}
+            </Box>
+          )}
+        </Box>
+      ) : null}
+
+      {/* Device Table */}
+      <TableContainer 
+        component={Paper} 
+        sx={{ 
+          marginBottom: 4,
+          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.08)',
+          borderRadius: '10px'
+        }}
+      >
+        <Table>
+          <TableHead sx={{ backgroundColor: '#f5f5f5' }}>
+            <TableRow>
+              <TableCell sx={{ fontWeight: 'bold' }}>Device Name</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Group</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Power On Time</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Power Off Time</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Count</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Consumption per Hour (kWh)</TableCell>
+              <TableCell sx={{ fontWeight: 'bold' }}>Action</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {filteredDevices.map((device, index) => (
+              <TableRow 
+                key={index}
+                sx={{ 
+                  '&:nth-of-type(odd)': { backgroundColor: '#fafafa' },
+                  '&:last-child td, &:last-child th': { border: 0 }
+                }}
+              >
+                <TableCell>{device.deviceName}</TableCell>
+                <TableCell>{device.group}</TableCell>
+                <TableCell>{device.powerOnTime}</TableCell>
+                <TableCell>{device.powerOffTime}</TableCell>
+                <TableCell>{device.count}</TableCell>
+                <TableCell>{device.consumptionPerHour}</TableCell>
+                <TableCell>
+                  <IconButton
+                    aria-label="actions"
+                    onClick={(e) => handleMenuOpen(e, device)}
+                  >
+                    <MoreVertIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+            {filteredDevices.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={7} align="center" sx={{ py: 3 }}>
+                  <Typography variant="body1" color="text.secondary">
+                    {devices.length === 0 ? 'No devices found' : 'No devices match your search and filters'}
+                  </Typography>
+                </TableCell>
+              </TableRow>
             )}
-          </Box>
-        )}
-      </Box>
-
-      {/* Search Results Section */}
-      {(searchTerm || deviceNameFilter || groupFilter || powerOnTimeFilter || powerOffTimeFilter || countFilter || consumptionFilter) && searchResults.length > 0 && (
-        <Collapse in={showSearchResults}>
-          <DeviceTableContent 
-            devices={searchResults} 
-            title={`Search Results (${searchResults.length} device${searchResults.length !== 1 ? 's' : ''} found)`}
-          />
-        </Collapse>
-      )}
-
-      {/* Main Device Table */}
-      <DeviceTableContent 
-        devices={devices} 
-        title="All Devices"
-      />
+          </TableBody>
+        </Table>
+      </TableContainer>
 
       {/* Action Menu */}
       <Menu
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
-        PaperProps={{
-          sx: {
-            borderRadius: '8px',
-            boxShadow: '0px 4px 15px rgba(0, 0, 0, 0.1)',
-          }
-        }}
       >
-        <MenuItem 
-          onClick={() => handleMenuAction('edit')}
-          sx={{
-            '&:hover': {
-              backgroundColor: '#f0f7f0',
-            }
-          }}
-        >
-          Edit
-        </MenuItem>
-        <MenuItem 
-          onClick={() => handleMenuAction('remove')}
-          sx={{
-            color: '#d32f2f',
-            '&:hover': {
-              backgroundColor: '#ffebee',
-            }
-          }}
-        >
-          Remove
-        </MenuItem>
+        <MenuItem onClick={() => handleMenuAction('edit')}>Edit</MenuItem>
+        <MenuItem onClick={() => handleMenuAction('remove')}>Remove</MenuItem>
       </Menu>
 
       {/* Add/Edit Device Form in Card */}
@@ -814,12 +669,7 @@ const DeviceTable = () => {
               error={!!error && error.includes('unique')}
               size="small"
               variant="outlined"
-              sx={{ 
-                backgroundColor: '#fff',
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                }
-              }}
+              sx={{ backgroundColor: '#fff' }}
             />
             
             <TextField
@@ -830,12 +680,7 @@ const DeviceTable = () => {
               onChange={handleInputChange}
               size="small"
               variant="outlined"
-              sx={{ 
-                backgroundColor: '#fff',
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                }
-              }}
+              sx={{ backgroundColor: '#fff' }}
             />
             
             <TextField
@@ -848,12 +693,7 @@ const DeviceTable = () => {
               error={!!error && error.includes('Time')}
               size="small"
               variant="outlined"
-              sx={{ 
-                backgroundColor: '#fff',
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                }
-              }}
+              sx={{ backgroundColor: '#fff' }}
             />
             
             <TextField
@@ -866,12 +706,7 @@ const DeviceTable = () => {
               error={!!error && error.includes('Time')}
               size="small"
               variant="outlined"
-              sx={{ 
-                backgroundColor: '#fff',
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                }
-              }}
+              sx={{ backgroundColor: '#fff' }}
             />
             
             <TextField
@@ -885,12 +720,7 @@ const DeviceTable = () => {
               error={!!error && error.includes('Count')}
               size="small"
               variant="outlined"
-              sx={{ 
-                backgroundColor: '#fff',
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                }
-              }}
+              sx={{ backgroundColor: '#fff' }}
             />
             
             <TextField
@@ -904,17 +734,13 @@ const DeviceTable = () => {
               error={!!error && error.includes('Consumption')}
               size="small"
               variant="outlined"
-              sx={{ 
-                backgroundColor: '#fff',
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '8px',
-                }
-              }}
+              sx={{ backgroundColor: '#fff' }}
             />
             
             <Box sx={{ display: 'flex', gap: 2, mt: 1 }}>
               <Button 
                 variant="contained" 
+                color="primary" 
                 onClick={editMode ? handleUpdateDevice : handleAddDevice}
                 sx={{ 
                   flex: 1,
@@ -923,7 +749,6 @@ const DeviceTable = () => {
                   fontSize: '1rem',
                   textTransform: 'none',
                   backgroundColor: '#235c23',
-                  borderRadius: '8px',
                   boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)',
                   '&:hover': {
                     boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)',
@@ -937,20 +762,14 @@ const DeviceTable = () => {
               {editMode && (
                 <Button 
                   variant="outlined" 
+                  color="error" 
                   onClick={cancelEdit}
                   sx={{ 
                     flex: 0.5,
                     py: 1.5,
                     fontWeight: 'bold',
                     fontSize: '1rem',
-                    textTransform: 'none',
-                    color: '#235c23',
-                    borderColor: '#235c23',
-                    borderRadius: '8px',
-                    '&:hover': {
-                      backgroundColor: '#f0f7f0',
-                      borderColor: '#1a451a',
-                    }
+                    textTransform: 'none'
                   }}
                 >
                   Cancel
@@ -973,8 +792,7 @@ const DeviceTable = () => {
           severity="error" 
           sx={{ 
             width: '100%',
-            boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.1)',
-            borderRadius: '8px'
+            boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.1)'
           }}
         >
           {error}
@@ -992,8 +810,7 @@ const DeviceTable = () => {
           severity="success" 
           sx={{ 
             width: '100%',
-            boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.1)',
-            borderRadius: '8px'
+            boxShadow: '0px 3px 10px rgba(0, 0, 0, 0.1)'
           }}
         >
           {success}
