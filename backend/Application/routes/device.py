@@ -45,7 +45,6 @@ def update_device(device_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
-# CORRECTED DELETE endpoint (removed extra quote)
 @app.route('/device/<device_id>', methods=['DELETE'])
 def delete_device(device_id):
     try:

@@ -19,7 +19,6 @@ secret.read('Application/scripts/config.ini')
 app.config['JWT_SECRET_KEY'] = secret['db']['SECRET_KEY']
 jwt = JWTManager(app)
 
-# In your auth.py decorator
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -63,7 +62,7 @@ def login():
         # Create identity with both username and admin status
         identity = {
             "username": username,
-            "isAdmin": user.isAdmin  # Make sure this matches your User model field name
+            "isAdmin": user.isAdmin  
         }
         
         access_token = create_access_token(identity=identity, additional_claims={"isAdmin": user.isAdmin})

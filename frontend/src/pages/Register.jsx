@@ -103,7 +103,7 @@ function Register() {
                 display: 'flex', 
                 flexDirection: 'column', 
                 gap: '16px',
-                width: '300px' // Reduced width to match login
+                width: '300px' 
               }}
             >
               <TextField
@@ -136,10 +136,10 @@ function Register() {
                   fontSize: '1rem',
                   textTransform: 'none',
                   boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)',
-                  backgroundColor: '#2d6a2d', // Same green as login
+                  backgroundColor: '#2d6a2d', 
                   '&:hover': {
                     boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.15)',
-                    backgroundColor: '#235c23' // Same hover effect
+                    backgroundColor: '#235c23'
                   }
                 }}
               >

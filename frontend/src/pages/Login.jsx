@@ -33,7 +33,7 @@ function Login() {
         localStorage.setItem('access_token', data.access_token);
         localStorage.setItem('username', username);
         
-        // Extract admin status from token (NEW)
+        // Extract admin status from token
         const tokenPayload = JSON.parse(atob(data.access_token.split('.')[1]));
         const isAdmin = tokenPayload.isAdmin || false;
         localStorage.setItem('isAdmin', isAdmin);

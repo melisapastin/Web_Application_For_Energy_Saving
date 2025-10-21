@@ -184,7 +184,6 @@ function Profile() {
     }
   };
 
-  // Delete user directly without confirmation
   const handleDeleteUser = async (usernameToDelete) => {
     if (!usernameToDelete || usernameToDelete === username) return;
     
