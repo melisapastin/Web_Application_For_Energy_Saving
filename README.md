@@ -6,7 +6,7 @@ The main goal of the application is to allow users to monitor and manage the ene
 
 Key Features
 
-Energy consumption visualization: View usage data on a daily and monthly basis to better understand patterns and identify saving opportunities;
-Device management: Add or remove devices from the database and schedule their operating times for optimized consumption;
-Savings tracking: Display the amount of energy saved daily and monthly, highlighting the impact of user decisions and encouraging responsible energy behavior;
-User-friendly interface: Simple, structured navigation across main modules: Login/Register, Home, Devices, Dashboard, and Profile.
+- Energy consumption visualization: View usage data on a daily and monthly basis to better understand patterns and identify saving opportunities;
+- Device management: Add or remove devices from the database and schedule their operating times for optimized consumption;
+- Savings tracking: Display the amount of energy saved daily and monthly, highlighting the impact of user decisions and encouraging responsible energy behavior;
+- User-friendly interface: Simple, structured navigation across main modules: Login/Register, Home, Devices, Dashboard, and Profile.
